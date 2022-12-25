@@ -1,5 +1,5 @@
 class Node {
-  constructor(data, left, right) {
+  constructor(data, left = null, right = null) {
     this.data = data;
     this.left = left;
     this.right = right;
@@ -33,7 +33,21 @@ function createBST(arr, start = 0, end = arr.length - 1) {
   return root;
 }
 
-function insertNode() {}
+function insertNode(tree, key) {
+  if (tree === null) {
+    tree = new Node(key);
+    return tree;
+  }
+
+  if (key < tree.data) {
+    tree.left = insertNode(tree.left, key);
+  }
+
+  if (key > tree.data) {
+    tree.right = insertNode(tree.right, key);
+  }
+  return tree;
+}
 
 function deleteNode() {}
 
