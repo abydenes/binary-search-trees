@@ -1,6 +1,6 @@
 class Node {
-  constructor(data, left = null, right = null) {
-    this.data = data;
+  constructor(value, left = null, right = null) {
+    this.value = value;
     this.left = left;
     this.right = right;
   }
@@ -33,25 +33,52 @@ function createBST(arr, start = 0, end = arr.length - 1) {
   return root;
 }
 
-function insertNode(tree, key) {
+function insertNode(tree, value) {
   if (tree === null) {
-    tree = new Node(key);
+    tree = new Node(value);
     return tree;
   }
 
-  if (key < tree.data) {
-    tree.left = insertNode(tree.left, key);
+  if (value < tree.value) {
+    tree.left = insertNode(tree.left, value);
   }
 
-  if (key > tree.data) {
-    tree.right = insertNode(tree.right, key);
+  if (value > tree.value) {
+    tree.right = insertNode(tree.right, value);
   }
   return tree;
 }
 
-function deleteNode() {}
+function deleteNode(tree, value) {
+  if (tree.value === value) {
+    if (tree.left === null && tree.right === null) {
+      tree = null;
+    } else if (tree.left === null || tree.right === null) {
+      tree.left === null ? (tree = tree.right) : (tree = tree.left);
+    } else {
+      tree.value = findMin(tree.right).value;
+      deleteNode(tree.right, findMin(tree.right).value);
+    }
+    return tree;
+  }
 
-function find() {}
+  if (value < tree.value) {
+    tree.left = deleteNode(tree.left, value);
+  }
+
+  if (value > tree.value) {
+    tree.right = deleteNode(tree.right, value);
+  }
+  return tree;
+}
+
+function find(value) {}
+
+function findMin(tree) {
+  if (tree.left === null) {
+    return tree;
+  } else return findMin(tree.left);
+}
 
 function levelOrder() {}
 
@@ -67,7 +94,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node.right !== null) {
     prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
   if (node.left !== null) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
