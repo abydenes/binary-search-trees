@@ -72,7 +72,23 @@ function deleteNode(tree, value) {
   return tree;
 }
 
-function find(value) {}
+function find(tree, value) {
+  if (tree == null) {
+    return null;
+  }
+
+  if (tree.value == value) {
+    return tree;
+  }
+
+  if (value < tree.value) {
+    return find(tree.left, value);
+  }
+
+  if (value > tree.value) {
+    return find(tree.right, value);
+  }
+}
 
 function findMin(tree) {
   if (tree.left === null) {
@@ -80,7 +96,16 @@ function findMin(tree) {
   } else return findMin(tree.left);
 }
 
-function levelOrder() {}
+function levelOrder(tree1, cb) {
+  let queue = [];
+  queue.push(tree1);
+  while (queue.length) {
+    let current = queue.shift();
+    cb(current);
+    if (current.left !== null) queue.push(current.left);
+    if (current.right !== null) queue.push(current.right);
+  }
+}
 
 function inorder() {}
 
